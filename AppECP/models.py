@@ -46,7 +46,7 @@ class Producto(models.Model):
 	nombre = models.CharField(max_length=250, verbose_name='Nombre')
 	encabezado = models.TextField(verbose_name='Encabezado')
 	contenido = models.TextField(verbose_name='Contenido')
-	image = models.ImageField(upload_to='producto/image_user.png', null=True, blank=True, verbose_name='Imagen')
+	image = models.ImageField(default='producto/image_user.png',upload_to='producto/', null=True, blank=True, verbose_name='Imagen')
 	precio = models.FloatField()
 
 	# Campos con relaciones

@@ -42,7 +42,7 @@
                 </nav>
                 {% block content %}
                        <!-- Masthead-->
-                       <header  class="masthead">
+                       <header class="masthead">
                         <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
                             <div class="d-flex justify-content-center">
                                 <div class="text-center">
@@ -56,14 +56,14 @@
                 <section class="py-5">
                   <div class="row">
                       {% for producto in producto %}
-                      <div class="row gx-lg-4 gx-lg-5">
+                      <div style="background-color: grey;" class="row gx-lg-4 gx-lg-5">
                           <div class="card" style="width: 20rem;">
-                              <img src="{{ producto.image.url}}" class="card-img-top" alt="..." width="200" height="200" ></img>
+                              <img src="{{ producto.image.url }}" class="card-img-top" alt="..." width="200" height="200" ></img>
                               <div class="card-body">
                                   <h5 class="card-title">{{producto.nombre}}</h5>
-                                  <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                  <p class="card-text">{{producto.encabezado}}</p>
                                   <p class="card-text">(${{producto.precio}})</p>
-                                  <a href="#" class="btn btn-primary">Agregar - al Carrito</a>
+                                  <a href="{% url 'Detail' producto.id %}" class="btn btn-primary">Ver Detalle</a>
                               </div>
                             </div>
                       </div>

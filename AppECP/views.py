@@ -57,7 +57,7 @@ class ProductoUpdateView(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('update', args=[self.object.id]) + '?ok'
+        return reverse_lazy('Detail', args=[self.object.id]) + '?ok'
 
 # Eliminar un Producto
 class ProductoDeleteView(DeleteView):

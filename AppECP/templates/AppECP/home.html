@@ -13,6 +13,8 @@
                     <h5 class="card-title">@{{ user.username | upper }}</h5>
                     <p class="card-text mt-3">{{ user.profile.biografia }}</p>
                     <a href={% url 'logout' %} class="btn btn-sm btn-success">Cerrar Sesión</a>
+                    <a href="{% url 'List' %}" class="btn btn-sm btn-success">Editar Productos</a>
+                    <a href="{% url 'New' %}" class="btn btn-sm btn-success">Cargar Productos</a>
                 </div>
             </div>
         </div>
