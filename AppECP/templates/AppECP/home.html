@@ -7,6 +7,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="card">
+                <img src={{ user.profile.image.url }} class="card-img-top" alt="...">
                 <div class="card-body">
                     <h3 class="card-title text-primary">{{ user.first_name }} {{ user.last_name }}</h3>
                     <h5 class="card-title">@{{ user.username | upper }}</h5>
