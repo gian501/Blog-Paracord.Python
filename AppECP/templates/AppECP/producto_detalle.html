@@ -1,0 +1,17 @@
+{% extends 'AppECP/base.html' %}
+
+{% block content %}
+    <title>Producto Detalle</title>
+</head>
+<body>
+    <p>Nombre del Producto: <i>{{producto.nombre}}</i></p>
+    <p>Precio: <i>{{producto.precio}}</i></p>
+    <p>Cantidad: <i>{{producto.cantidad}}</i></p>
+    <p>Imagen: <i>{{producto.image}}</i></p>
+    
+        <a href="{% url 'List' %}">Regresar</a>
+    </p>
+</body>
+{% endblock %}
+
+
