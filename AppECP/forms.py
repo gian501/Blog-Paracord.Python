@@ -15,7 +15,7 @@ class ProductoFormulario(forms.ModelForm):
 
     class Meta:
         model = Producto
-        fields = ['nombre', 'encabezado', 'contenido', 'image','precio','category','fabricante']
+        fields = '__all__' #['nombre', 'encabezado', 'contenido', 'image','precio','category','fabricante']
 
         widgets = {
             'nombre':forms.TextInput(attrs={'class':'form-control'}),

@@ -10,6 +10,9 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.db.models import Q
+from django.core.paginator import Paginator
+from django.http import Http404
 
 
 # Create your views here.
@@ -23,7 +26,16 @@ def home(request):
 @login_required
 def products(request):
     producto = Producto.objects.all()
-    return render(request, 'AppECP/products.html', {'producto':producto})
+    page= request.GET.get('page', 1)
+
+    try:
+        paginator = Paginator(producto, 6)
+        producto = paginator.page(page)
+    except:
+        raise Http404
+
+
+    return render(request, 'AppECP/products.html', {'producto':producto, 'paginator':paginator})
 
 #Listado de Producto
 class ProductoList(ListView):
@@ -41,10 +53,10 @@ class ProductoCreateView(CreateView):
     form_class = ProductoFormulario
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        form.instance.fabricante = self.request.user
         return super().form_valid(form)
 
-    success_url = "/AppECP/producto/list"
+    success_url = 'products'
 
 # Edición del Producto
 class ProductoUpdateView(UpdateView):
@@ -53,7 +65,7 @@ class ProductoUpdateView(UpdateView):
     success_url = "/Core/producto/list"
 
     def form_valid(self, form): #esto es que el editor pueda editar el producto
-        form.instance.author = self.request.user
+        form.instance.fabricante = self.request.user
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -64,9 +76,6 @@ class ProductoDeleteView(DeleteView):
     model = Producto
     success_url = "/AppECP/producto/list"
 
-#def exit(request):
-    #logout(request)
-    #return redirect('home')
 
 def register(request):
     data = {
@@ -87,3 +96,36 @@ def register(request):
 
 def aboutus(request):
     return render(request, 'AppECP/aboutus.html')
+
+
+
+    
+
+def busquedaProducto(request):
+   busqueda = request.GET.get("buscar")
+   productos = Producto.objects.all()
+
+   if busqueda:
+       productos = Producto.objects.filter(
+           Q(nombre__icontains = busqueda) | 
+           Q(encabezado__icontain = busqueda) |
+           Q(category__icontain = busqueda) |
+           Q(fabricante__icontain = busqueda)
+        ).distinct()
+       return render(request, 'resultadoBusqueda.html', {'productos':productos})
+
+
+'''
+def busquedaProducto(request):
+    return render(request, "AppECP/busquedaProducto.html" )
+
+def buscar(request):
+    if request.GET['nombre']:
+        nombre= request.GET['nombre']
+        productos = Producto.objects.filter(nombre__icontains=nombre)
+        return render(request, "AppECP/resultadoBusqueda.html", {"nombre":nombre, "productos":productos})
+    else:
+        respuesta = "No enviaste datos"
+    
+    #return render(request, 'AppC/inicio.html',{"respuesta": respuesta})
+    return HttpResponse(respuesta)'''

@@ -25,6 +25,17 @@
                             Menu
                             <i class="fas fa-bars"></i>
                         </button>
+                        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"method="GET">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar..." name="buscar" value="{{ request.GET.buscar }}">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                         <div class="collapse navbar-collapse" id="navbarResponsive">
                             <ul class="navbar-nav ms-auto">
                                 <li class="nav-item"><a class="nav-link" href={% url 'home' %}>Home</a></li>
@@ -58,7 +69,9 @@
                       {% for producto in producto %}
                       <div style="background-color: grey;" class="row gx-lg-4 gx-lg-5">
                           <div class="card" style="width: 20rem;">
+                                {% if producto.image %}
                               <img src="{{ producto.image.url }}" class="card-img-top" alt="..." width="200" height="200" ></img>
+                              {% endif %}
                               <div class="card-body">
                                   <h5 class="card-title">{{producto.nombre}}</h5>
                                   <p class="card-text">{{producto.encabezado}}</p>
@@ -70,6 +83,9 @@
                   </div>
                 </section>
                 {% endfor %}
+                <div>
+                    {% include 'AppECP/paginator.html' %}
+                </div>
                 {% endblock %}
                 </body>
             </html>   

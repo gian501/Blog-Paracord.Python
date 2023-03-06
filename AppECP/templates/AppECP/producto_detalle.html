@@ -46,7 +46,9 @@
                 <div class="card">
                     <div class="card-title">
                         <h3 class="card-title text-primary">{{producto.nombre}} </h3>
-                        <img src={{ producto.image.url }} class="card-img-top" alt="...">
+                        {% if producto.imagenes %}
+                        <img src={{ producto.imagenes.first.image.url }} class="card-img-top" alt="...">
+                        {% endif %}
                         <h5 class="card-title">{{producto.encabezado}}</h5>
                         <hr>
                         <span>{{producto.precio}} {{producto.category}}  {{producto.fabricante}}</span>
