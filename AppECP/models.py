@@ -68,3 +68,17 @@ class Producto(models.Model):
 class ImageProducto(models.Model):
 	image = models.ImageField(upload_to="producto/")
 	producto = models.ForeignKey(Producto, on_delete= models.CASCADE, related_name="imagenes")
+
+class Carrito(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="carrito")
+    total = models.DecimalField(null=False, max_digits=10, decimal_places=2)
+
+   
+
+
+class Carrito_item(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE) 
+    carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE, related_name="items")
+
+
+

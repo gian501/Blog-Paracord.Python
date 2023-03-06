@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import logout
 from .forms import CustomUserCreationForm
 from django.contrib.auth import authenticate, login
-from .models import Producto
+from .models import Producto, Categorias, User ,Carrito, Carrito_item
 from .forms import ProductoFormulario
 from django.urls import reverse_lazy
 #from django.http import HttpResponse
@@ -13,6 +13,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import Http404
+from django.contrib import messages
 
 
 # Create your views here.
@@ -47,7 +48,8 @@ class ProductoDetailView(DetailView):
     model = Producto
     template_name = "AppECP/producto_detalle.html"
 
-# Crear Producto
+#Crear Producto
+#@permission_required('AppECP.add_producto')
 class ProductoCreateView(CreateView):
     model = Producto
     form_class = ProductoFormulario
@@ -58,7 +60,8 @@ class ProductoCreateView(CreateView):
 
     success_url = 'products'
 
-# Edición del Producto
+#Edición del Producto
+#@permission_required('AppECP.change_producto')
 class ProductoUpdateView(UpdateView):
     model = Producto
     form_class = ProductoFormulario
@@ -71,12 +74,13 @@ class ProductoUpdateView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('Detail', args=[self.object.id]) + '?ok'
 
-# Eliminar un Producto
+#Eliminar un Producto
+#@permission_required('AppECP.delete_producto')
 class ProductoDeleteView(DeleteView):
     model = Producto
     success_url = "/AppECP/producto/list"
 
-
+#Registro de usuario
 def register(request):
     data = {
         'form': CustomUserCreationForm()
@@ -129,3 +133,69 @@ def buscar(request):
     
     #return render(request, 'AppC/inicio.html',{"respuesta": respuesta})
     return HttpResponse(respuesta)'''
+
+
+
+
+def carrito_index(request):
+    categorias = Categorias.objects.all()
+    usuario_logeado = User.objects.get(username=request.user)
+    productos = Carrito.objects.get(usuario=usuario_logeado.id).items.all()
+
+    carrito = Carrito.objects.get(usuario=usuario_logeado.id)
+    nuevo_precio_Carrito = 0
+    for item in carrito.items.all():
+        nuevo_precio_Carrito += item.producto.precio
+    carrito.total = nuevo_precio_Carrito
+    carrito.save()
+
+    return render(request, 'SITIO:carrito_index', {
+        'categorias' : categorias,
+        'usuario' : usuario_logeado,
+        'items_carrito' : productos
+    })
+
+def carrito_save(request):
+    if request.method == 'POST':
+        producto = Producto.objects.get(id=request.POST['producto_id'])
+        usuario_logeado = User.objects.get(username=request.user)
+
+        # Agrego producto al carrito
+        carrito = Carrito.objects.get(usuario=usuario_logeado.id)
+        item_carrito = Carrito_item()
+        item_carrito.carrito = carrito
+        item_carrito.producto = producto
+        item_carrito.save()
+
+        # Sumo el precio del producto al carrito
+        carrito.total = producto.precio + carrito.total
+        carrito.save()
+        messages.success(request, f"El producto {producto.titulo} fue agregado al carrito")
+        return redirect('SITIO:carrito_index')
+
+    else:
+        return redirect('SITIO:carrito_index')
+
+def carrito_clean(request):
+    usuario_logeado = User.objects.get(username=request.user)
+    carrito = Carrito.objects.get(usuario=usuario_logeado.id)
+    carrito.items.all().delete()
+    carrito.total = 0
+    carrito.save()
+    return redirect('SITIO:carrito_index')
+
+def item_carrito_delete(request, item_carrito_id):
+    item_carrito = Carrito_item.objects.get(id=item_carrito_id)
+    carrito = item_carrito.carrito
+    
+    # Vuelvo a calcular el precio del carrito
+    nuevo_precio_Carrito = 0 - item_carrito.producto.precio
+    for item in carrito.items.all():
+        nuevo_precio_Carrito += item.producto.precio
+
+    # Realizo los cambios en la base de datos
+    carrito.total = nuevo_precio_Carrito
+    item_carrito.delete()
+    carrito.save()
+    return redirect("SITIO:carrito_index")
+    
