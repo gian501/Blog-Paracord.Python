@@ -30,7 +30,7 @@ def products(request):
     page= request.GET.get('page', 1)
 
     try:
-        paginator = Paginator(producto, 6)
+        paginator = Paginator(producto, 1)
         producto = paginator.page(page)
     except:
         raise Http404
@@ -103,36 +103,12 @@ def aboutus(request):
 
 
 
-    
 
 def busquedaProducto(request):
-   busqueda = request.GET.get("buscar")
-   productos = Producto.objects.all()
-
-   if busqueda:
-       productos = Producto.objects.filter(
-           Q(nombre__icontains = busqueda) | 
-           Q(encabezado__icontain = busqueda) |
-           Q(category__icontain = busqueda) |
-           Q(fabricante__icontain = busqueda)
-        ).distinct()
-       return render(request, 'resultadoBusqueda.html', {'productos':productos})
-
-
-'''
-def busquedaProducto(request):
-    return render(request, "AppECP/busquedaProducto.html" )
-
-def buscar(request):
-    if request.GET['nombre']:
-        nombre= request.GET['nombre']
-        productos = Producto.objects.filter(nombre__icontains=nombre)
-        return render(request, "AppECP/resultadoBusqueda.html", {"nombre":nombre, "productos":productos})
-    else:
-        respuesta = "No enviaste datos"
-    
-    #return render(request, 'AppC/inicio.html',{"respuesta": respuesta})
-    return HttpResponse(respuesta)'''
+    texto_de_busqueda = request.GET["texto"]
+    productosPorNombre = Producto.objects.filter(nombre__icontains = texto_de_busqueda).all()
+    productos = productosPorNombre 
+    return render(request, 'AppECP/busquedaProducto.html',{'productos' : productos,'texto_buscado' : texto_de_busqueda,'titulo_seccion' : 'Productos que contienen','sin_productos' : 'No hay producto de la categoria ' + texto_de_busqueda})
 
 
 
@@ -149,11 +125,12 @@ def carrito_index(request):
     carrito.total = nuevo_precio_Carrito
     carrito.save()
 
-    return render(request, 'SITIO:carrito_index', {
+    return render(request, '"AppECP/carrito_compras.html"', {
         'categorias' : categorias,
         'usuario' : usuario_logeado,
         'items_carrito' : productos
     })
+
 
 def carrito_save(request):
     if request.method == 'POST':
@@ -171,10 +148,10 @@ def carrito_save(request):
         carrito.total = producto.precio + carrito.total
         carrito.save()
         messages.success(request, f"El producto {producto.titulo} fue agregado al carrito")
-        return redirect('SITIO:carrito_index')
+        return redirect("AppECP/carrito_compras.html")
 
     else:
-        return redirect('SITIO:carrito_index')
+        return redirect("AppECP/carrito_compras.html")
 
 def carrito_clean(request):
     usuario_logeado = User.objects.get(username=request.user)
@@ -182,7 +159,7 @@ def carrito_clean(request):
     carrito.items.all().delete()
     carrito.total = 0
     carrito.save()
-    return redirect('SITIO:carrito_index')
+    return redirect("AppECP/carrito_compras.html")
 
 def item_carrito_delete(request, item_carrito_id):
     item_carrito = Carrito_item.objects.get(id=item_carrito_id)
@@ -197,5 +174,5 @@ def item_carrito_delete(request, item_carrito_id):
     carrito.total = nuevo_precio_Carrito
     item_carrito.delete()
     carrito.save()
-    return redirect("SITIO:carrito_index")
+    return redirect("AppECP/carrito_compras.html")
     

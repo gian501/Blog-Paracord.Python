@@ -1,0 +1,41 @@
+
+
+    <!-- Productos -->
+    <div class="row row-cols-1 row-cols-md-3 container justify-content-center">
+
+        {% for producto in productos%}
+        <section class="about-section text-center" id="about"
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-title">
+                        <h3 class="card-title text-primary">{{producto.nombre}} </h3>
+                        {% if producto.imagenes %}
+                        <img src={{ producto.imagenes.first.image.url }} class="card-img-top" alt="...">
+                        {% endif %}
+                        <h5 class="card-title">{{producto.encabezado}}</h5>
+                        <hr>
+                        <span>{{producto.precio}} {{producto.category}}  {{producto.fabricante}}</span>
+                        <hr>
+                        <a href={% url 'products' %} class="btn btn-sm btn-success"> Volver al catalogo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+<section class="row">
+    <div class="row">
+        <h4>Descripcion</h4>
+        <p class="col-md-3">{{producto.contenido}}</p>
+    </div>
+</section>
+        {% empty %}
+        <h2 class="col-12 display-4 text-center mt-5" style="font-size: 2em; height: 30vh;">No hay productos que
+            coincidan</h2>
+        {% endfor %}
+
+    </div>
+
+
+
+

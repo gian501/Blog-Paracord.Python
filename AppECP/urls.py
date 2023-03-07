@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, products, register, aboutus, ProductoUpdateView 
+from .views import home, products, register, aboutus, ProductoUpdateView, busquedaProducto 
 from AppECP import views
 
 urlpatterns = [
@@ -8,7 +8,7 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('logout/', exit, name='exit'),
     path('aboutus/', aboutus, name='aboutus'),
-    path('busquedaProducto', views.busquedaProducto, name= "busquedaProducto"),
+    path('busquedaProducto', busquedaProducto, name= "busquedaProducto"),
     
 
     path('producto/list', views.ProductoList.as_view(), name='List'),
