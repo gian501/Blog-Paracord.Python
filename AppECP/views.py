@@ -39,20 +39,20 @@ def products(request):
     return render(request, 'AppECP/products.html', {'producto':producto, 'paginator':paginator})
 
 
-class ProfileDetailView(DetailView):
-    model = Profile
-    template_name = "AppECP/perfil.html"
 
 #####CRUD Producto#########                     
 
                                                                                         
 
 #Listado de Producto
-class ProductoList(ListView):
+def datos_usuarios(request):
+   return render(request, 'AppECP/perfil.html')
+
+class ProductoListView(ListView):
     model = Producto
     template_name = "AppECP/producto_list.html"
 
-
+#Listado de Producto
 class ProductoDetailView(DetailView):
     model = Producto
     template_name = "AppECP/producto_detalle.html"
