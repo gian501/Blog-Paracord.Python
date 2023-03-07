@@ -31,16 +31,37 @@
                         <li class="nav-item"><a class="nav-link" href={% url 'home' %}>Home</a></li>
                         <li class="nav-item"><a class="nav-link" href={% url 'aboutus' %}>About-Us</a></li>
                         <li class="nav-item"><a class="nav-link" href={% url 'products' %}>Productos</a></li>
+                        
                         {% if request.user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href={% url 'logout' %}>Salir</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ user.username}}
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% if user.is_superuser %}
+                              <li><a class="dropdown-item" href="{% url 'List' %}">Editar Productos</a></li>
+                              <li><a class="dropdown-item" href="{% url 'New' %}">Agregar Productos</a></li>
+                              <li><a class="dropdown-item" href={% url 'logout' %}>Cerrar Cesion</a></li>
+                                {% endif %}
+                            </ul>
+                          </li>
+                        {% endif %}
+                        <br>
+                        {% if user.is_superuser or not user.is_authenticated %}
+                        <button role="button" class="btn btn-success mr-3" disabled>
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
                         {% else %}
-                        <li class="nav-item"><a class="nav-link" href={% url 'login' %}>Ingresar</a></li>
-                        <li class="nav-item"><a class="nav-link" href={% url 'register' %}>Registrarse</a></li>
+                        <button role="button" class="btn btn-success mr-3" href="{% url 'carrito_index' %}">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
                         {% endif %}
                     </ul>
                 </div>
             </div>
         </nav>
+        {% block content %}
+        {% endblock %}
       <section class="about-section text-center" id="about">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">

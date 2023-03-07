@@ -37,11 +37,11 @@
                                 {{ user.username}}
                             </a>
                             <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="{% url 'List' %}">Editar Productos</a></li>
+                                {% if user.is_superuser %}
+                              <li><a class="dropdown-item" href="{% url 'List' %}">Listar Productos</a></li>
                               <li><a class="dropdown-item" href="{% url 'New' %}">Agregar Productos</a></li>
                                 {% endif %}
-                                {% if request.user.is_authenticated %} 
-                              <li><a class="dropdown-item" href={% url 'logout' %}>Cerrar Cesion</a></li>
+                              <li><a class="dropdown-item" href={% url 'logout' %}>Cerrar Sesion</a></li>
                             </ul>
                           </li>
                         {% else %}
@@ -90,15 +90,16 @@
                     </div>
                 </div>
             </div>
-        </section>
-</section>
-        {% empty %}
-        <h2 class="col-12 display-4 text-center mt-5" style="font-size: 2em; height: 30vh;">No hay productos que
+            {% empty %}
+            <h2 class="col-12 display-4 text-center mt-5" style="font-size: 2em; height: 30vh;">No hay productos que
             coincidan</h2>
-        {% endfor %}
-
+            {% endfor %}
+        </section>
+<section>
+    <div>
+        {% include 'AppECP/paginator.html' %}
     </div>
-
+</section>
 
 
 

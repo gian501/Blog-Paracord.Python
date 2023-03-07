@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, products, register, aboutus, ProductoUpdateView, busquedaProducto 
+from .views import home, products, register, aboutus, ProductoUpdateView, busquedaProducto, ProfileDetailView
 from AppECP import views
 
 urlpatterns = [
@@ -22,4 +22,6 @@ urlpatterns = [
     path('carrito/agregar', views.carrito_save, name="carrito_save"),
     path('carrito/clean', views.carrito_clean, name="carrito_clean"),
     path('item_carrito/<int:item_carrito_id>/eliminar', views.item_carrito_delete, name="item_carrito_delete"),
+
+    path('user/<int:pk>', views.ProfileDetailView.as_view(), name='User'),
 ]

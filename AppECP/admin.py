@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Categorias, Producto, ImageProducto #Carrito, Carrito_item
+from .models import Profile,Categorias, Producto, ImageProducto #Carrito, Carrito_item
 from .forms import ProductoFormulario
 
 # Register your models here.

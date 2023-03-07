@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import logout
 from .forms import CustomUserCreationForm
 from django.contrib.auth import authenticate, login
-from .models import Producto, Categorias, User ,Carrito, Carrito_item
+from .models import Producto, Categorias, User ,Carrito, Carrito_item, Profile
 from .forms import ProductoFormulario
 from django.urls import reverse_lazy
 #from django.http import HttpResponse
@@ -30,13 +30,22 @@ def products(request):
     page= request.GET.get('page', 1)
 
     try:
-        paginator = Paginator(producto, 1)
+        paginator = Paginator(producto, 3)
         producto = paginator.page(page)
     except:
         raise Http404
 
 
     return render(request, 'AppECP/products.html', {'producto':producto, 'paginator':paginator})
+
+
+class ProfileDetailView(DetailView):
+    model = Profile
+    template_name = "AppECP/perfil.html"
+
+#####CRUD Producto#########                     
+
+                                                                                        
 
 #Listado de Producto
 class ProductoList(ListView):
@@ -58,27 +67,33 @@ class ProductoCreateView(CreateView):
         form.instance.fabricante = self.request.user
         return super().form_valid(form)
 
-    success_url = 'products'
+    success_url = reverse_lazy('products')
 
 #Edición del Producto
 #@permission_required('AppECP.change_producto')
 class ProductoUpdateView(UpdateView):
     model = Producto
     form_class = ProductoFormulario
-    success_url = "/Core/producto/list"
+    success_url = "/AppECP/producto/list"
 
     def form_valid(self, form): #esto es que el editor pueda editar el producto
         form.instance.fabricante = self.request.user
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('Detail', args=[self.object.id]) + '?ok'
+        return reverse_lazy('Detail', args=[self.object.id])
 
 #Eliminar un Producto
 #@permission_required('AppECP.delete_producto')
 class ProductoDeleteView(DeleteView):
     model = Producto
-    success_url = "/AppECP/producto/list"
+    success_url = reverse_lazy('products')
+
+
+
+####Fin CRUD####
+
+
 
 #Registro de usuario
 def register(request):
@@ -94,16 +109,13 @@ def register(request):
 
             user = authenticate(username=user_creation_form.cleaned_data['username'], password=user_creation_form.cleaned_data['password1'])
             login(request, user)
-            messages.success(request, f"Tu usuario a sido creado con exito")
             return redirect('home')
+            
 
     return render(request, 'registration/register.html', data)
 
 def aboutus(request):
     return render(request, 'AppECP/aboutus.html')
-
-
-
 
 def busquedaProducto(request):
     texto_de_busqueda = request.GET["texto"]
@@ -115,7 +127,7 @@ def busquedaProducto(request):
 
 
 def carrito_index(request):
-    categorias = Categorias.objects.all()
+    
     usuario_logeado = User.objects.get(username=request.user)
     productos = Carrito.objects.get(usuario=usuario_logeado.id).items.all()
 
@@ -127,7 +139,7 @@ def carrito_index(request):
     carrito.save()
 
     return render(request, '"AppECP/carrito_compras.html"', {
-        'categorias' : categorias,
+        
         'usuario' : usuario_logeado,
         'items_carrito' : productos
     })

@@ -37,11 +37,11 @@
                                 {{ user.username}}
                             </a>
                             <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="{% url 'List' %}">Editar Productos</a></li>
+                                {% if user.is_superuser %}
+                              <li><a class="dropdown-item" href="{% url 'List' %}">Listar Productos</a></li>
                               <li><a class="dropdown-item" href="{% url 'New' %}">Agregar Productos</a></li>
                                 {% endif %}
-                                {% if request.user.is_authenticated %} 
-                              <li><a class="dropdown-item" href={% url 'logout' %}>Cerrar Cesion</a></li>
+                              <li><a class="dropdown-item" href={% url 'logout' %}>Cerrar Sesion</a></li>
                             </ul>
                           </li>
                         {% else %}
@@ -62,15 +62,16 @@
                 </div>
             </div>
         </nav>
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
         <section class="about-section text-center" id="about">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-8">
-                      <form action="" method="post">{% csrf_token %}
+                      <form action="" method="post">
                         <div class="card mx-auto" style="width: 30rem;">
                           <div class="card-body">
-                            <form method="post">{% csrf_token %}
+                            <form method="post" enctype="multipart/form-data">{% csrf_token %}
                                 {{ form.as_p }}
                                 <a href="{% url 'List' %}">Regresar</a>
                                 <input type="submit" value="Enviar" />
