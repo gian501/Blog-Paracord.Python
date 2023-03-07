@@ -94,6 +94,7 @@ def register(request):
 
             user = authenticate(username=user_creation_form.cleaned_data['username'], password=user_creation_form.cleaned_data['password1'])
             login(request, user)
+            messages.success(request, f"Tu usuario a sido creado con exito")
             return redirect('home')
 
     return render(request, 'registration/register.html', data)
