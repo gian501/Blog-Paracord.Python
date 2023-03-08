@@ -26,14 +26,11 @@ class Producto(models.Model):
 	contenido = models.TextField(verbose_name='Contenido')
 	image = models.ImageField(default='users/cobra.png',upload_to='producto/', null=True, blank=True, verbose_name='Imagen')
 	precio = models.FloatField()
+	creacion = models.DateField(verbose_name='Fecha de creación')
 
 	# Campos con relaciones
 	category = models.ForeignKey(Categorias, on_delete=models.CASCADE, related_name='get_posts', verbose_name='Categoría')
 	fabricante = models.ForeignKey(User, on_delete=models.CASCADE, related_name='get_posts', verbose_name='Fabricante')
-
-
-	creacion = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
-	modificacion = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificación')
 
 	class Meta:
 		verbose_name = 'Producto'
@@ -54,12 +51,11 @@ class Profile(models.Model):
 	image = models.ImageField(default='users/image_user.png', upload_to='users/', null=True, blank=True)
 	biografia = models.TextField(max_length=400, null=True, blank=True)
 
+
 	class Meta:
 		verbose_name = 'Perfil'
 		verbose_name_plural = 'Perfiles'
 		ordering = ['-id']
-
-
 
 def create_user_profile(sender, instance, created, **kwargs):
 	if created:
@@ -74,17 +70,32 @@ post_save.connect(save_user_profile, sender=User)
 
 
 
-
+#Carrito
 class Carrito(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="carrito")
     total = models.DecimalField(null=False, max_digits=10, decimal_places=2)
-
-   
-
-
 class Carrito_item(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE) 
     carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE, related_name="items")
 
 
 
+
+
+#Contacto
+opciones_consulta = [
+	[0, "Consulta"],
+	[1, "Reclamo"],
+	[2, "sugerencia"]
+]
+
+class Contacto (models.Model):
+	nombre = models.CharField(max_length=40)
+	correo = models.EmailField()
+	tipo_consulta = models.IntegerField(choices=opciones_consulta)
+	mensaje = models.TextField()
+	notificacion = models.BooleanField()
+
+
+	def __str__(self):
+		return self. nombre

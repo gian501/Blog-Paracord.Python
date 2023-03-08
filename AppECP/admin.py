@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile,Categorias, Producto, ImageProducto #Carrito, Carrito_item
+from .models import Profile,Categorias, Producto, ImageProducto, Contacto
 from .forms import ProductoFormulario
 
 # Register your models here.
@@ -18,5 +18,5 @@ class ProductoAdministration(admin.ModelAdmin):
 admin.site.register(Profile)
 admin.site.register(Categorias)
 admin.site.register(Producto)
-#admin.site.register(Carrito_item)
+admin.site.register(Contacto)
 #admin.site.register(Carrito)

@@ -4,7 +4,7 @@ from django.contrib.auth import logout
 from .forms import CustomUserCreationForm
 from django.contrib.auth import authenticate, login
 from .models import Producto, Categorias, User ,Carrito, Carrito_item, Profile
-from .forms import ProductoFormulario, PerfilFormulario, UserEditForm
+from .forms import ProductoFormulario, PerfilFormulario, UserEditForm, ContactoFormulario
 from django.urls import reverse_lazy
 #from django.http import HttpResponse
 from django.views.generic import ListView
@@ -24,6 +24,7 @@ from django.contrib import messages
 def home(request):
     return render(request, 'AppECP/home.html')
 
+#Catalogo
 @login_required
 def products(request):
     producto = Producto.objects.all()
@@ -38,9 +39,26 @@ def products(request):
 
     return render(request, 'AppECP/products.html', {'producto':producto, 'paginator':paginator})
 
-#Listado de Producto
-def datos_usuarios(request):
-   return render(request, 'AppECP/perfil_detalle.html')
+#Aboutus
+def aboutus(request):
+    return render(request, 'AppECP/aboutus.html')
+
+#Contacto
+@login_required
+def contacto(request):
+    data = {
+        'contactform': ContactoFormulario()
+    }
+    if request.method == 'POST':
+        formulario = ContactoFormulario(data = request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            data["mensaje"] = "Mensaje Enviado"
+        else:
+            data['contactform']= formulario
+
+
+    return render(request, "AppECP/contacto.html", data)
 
                    
 
@@ -97,6 +115,11 @@ class ProductoDeleteView(DeleteView):
     model = Producto
     success_url = reverse_lazy('products')
 
+def busquedaProducto(request):
+    texto_de_busqueda = request.GET["texto"]
+    productosPorNombre = Producto.objects.filter(nombre__icontains = texto_de_busqueda).all()
+    productos = productosPorNombre 
+    return render(request, 'AppECP/busquedaProducto.html',{'productos' : productos,'texto_buscado' : texto_de_busqueda,'titulo_seccion' : 'Productos que contienen','sin_productos' : 'No hay producto de la categoria ' + texto_de_busqueda})
 
 
 ####Fin CRUD####
@@ -122,16 +145,11 @@ def register(request):
 
     return render(request, 'registration/register.html', data)
 
-def aboutus(request):
-    return render(request, 'AppECP/aboutus.html')
+def datos_usuarios(request):
+   return render(request, 'AppECP/perfil_detalle.html')
 
-def busquedaProducto(request):
-    texto_de_busqueda = request.GET["texto"]
-    productosPorNombre = Producto.objects.filter(nombre__icontains = texto_de_busqueda).all()
-    productos = productosPorNombre 
-    return render(request, 'AppECP/busquedaProducto.html',{'productos' : productos,'texto_buscado' : texto_de_busqueda,'titulo_seccion' : 'Productos que contienen','sin_productos' : 'No hay producto de la categoria ' + texto_de_busqueda})
-
-def editarPerfil(request):
+@login_required
+def editar_usuario(request):
     usuario = request.user
     if request.method == 'POST':
         miFormulario = UserEditForm(request.POST)
@@ -139,19 +157,39 @@ def editarPerfil(request):
             informacion = miFormulario.cleaned_data
             usuario.email = informacion['email']
             usuario.password1= informacion['password1']
-            usuario.password2= informacion['password1']            
+            usuario.password2= informacion['password1']
+            usuario.first_name= informacion['first_name']
+            usuario.last_name= informacion['last_name']            
             usuario.save()
             
 
-            return render(request, "AppECP/inicio.html")
+            return render(request, "AppECP/home.html")
     else:
 
         miFormulario = UserEditForm(initial={'email':usuario.email})
-    return render(request, "AppECP/editarPerfil.html",{"miFormulario": miFormulario, "usuario":usuario})
+    return render(request, "AppECP/usuario_editar.html",{"miFormulario": miFormulario, "usuario":usuario})
+
+
+#Perfil -Agregar foto y biografia
+def agregar_contenido_al_perfil(request):
+    data={
+        'perfilform': PerfilFormulario()
+    }
+    if request.method == 'POST':
+        formulario = PerfilFormulario(data = request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            data["mensaje"] = "Perfil Actualizado"
+        else:
+            data['Perfilform']= formulario
+    return render( request, "AppECP/perfil.html", data)
 
 
 
 
+
+
+#Carrito
 def carrito_index(request):
     
     usuario_logeado = User.objects.get(username=request.user)
