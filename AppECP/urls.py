@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, products, register, aboutus, busquedaProducto, datos_usuarios
+from .views import *
 from AppECP import views
 
 urlpatterns = [
@@ -9,7 +9,7 @@ urlpatterns = [
     path('datos_usuarios/', datos_usuarios, name='datos_usuarios'),
     path('aboutus/', aboutus, name='aboutus'),
     path('busquedaProducto', busquedaProducto, name= "busquedaProducto"),
-    
+    path('editarPerfil', editarPerfil, name="EditarPerfil"),
 
     path('producto/list', views.ProductoListView.as_view(), name='List'),
     path(r'^(?P<pk>\d+)$', views.ProductoDetailView.as_view(), name='Detail'),

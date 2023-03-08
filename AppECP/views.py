@@ -4,7 +4,7 @@ from django.contrib.auth import logout
 from .forms import CustomUserCreationForm
 from django.contrib.auth import authenticate, login
 from .models import Producto, Categorias, User ,Carrito, Carrito_item, Profile
-from .forms import ProductoFormulario
+from .forms import ProductoFormulario, PerfilFormulario, UserEditForm
 from django.urls import reverse_lazy
 #from django.http import HttpResponse
 from django.views.generic import ListView
@@ -38,21 +38,29 @@ def products(request):
 
     return render(request, 'AppECP/products.html', {'producto':producto, 'paginator':paginator})
 
-
-
-#####CRUD Producto#########                     
-
-                                                                                        
-
 #Listado de Producto
 def datos_usuarios(request):
-   return render(request, 'AppECP/perfil.html')
+   return render(request, 'AppECP/perfil_detalle.html')
 
+                   
+
+
+
+
+
+
+
+
+
+
+#####CRUD Producto#########  
+
+#Producto listado
 class ProductoListView(ListView):
     model = Producto
     template_name = "AppECP/producto_list.html"
 
-#Listado de Producto
+#Listado Detalle
 class ProductoDetailView(DetailView):
     model = Producto
     template_name = "AppECP/producto_detalle.html"
@@ -122,6 +130,24 @@ def busquedaProducto(request):
     productosPorNombre = Producto.objects.filter(nombre__icontains = texto_de_busqueda).all()
     productos = productosPorNombre 
     return render(request, 'AppECP/busquedaProducto.html',{'productos' : productos,'texto_buscado' : texto_de_busqueda,'titulo_seccion' : 'Productos que contienen','sin_productos' : 'No hay producto de la categoria ' + texto_de_busqueda})
+
+def editarPerfil(request):
+    usuario = request.user
+    if request.method == 'POST':
+        miFormulario = UserEditForm(request.POST)
+        if miFormulario.is_valid():
+            informacion = miFormulario.cleaned_data
+            usuario.email = informacion['email']
+            usuario.password1= informacion['password1']
+            usuario.password2= informacion['password1']            
+            usuario.save()
+            
+
+            return render(request, "AppECP/inicio.html")
+    else:
+
+        miFormulario = UserEditForm(initial={'email':usuario.email})
+    return render(request, "AppECP/editarPerfil.html",{"miFormulario": miFormulario, "usuario":usuario})
 
 
 
