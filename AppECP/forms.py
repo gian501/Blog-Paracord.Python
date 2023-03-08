@@ -19,10 +19,11 @@ class ProductoFormulario(forms.ModelForm):
             'nombre':forms.TextInput(attrs={'class':'form-control'}),
             'encabezado':forms.Textarea(attrs={'class':'form-control'}),
             'contenido':forms.Textarea(attrs={'class':'form-control'}),
+            'image':forms.ClearableFileInput(attrs={'class':'form-control'}),
             'category':forms.Select(attrs={'class':'form-control'}),
             'precio':forms.NumberInput(attrs={'class':'form-control'}),
             'fabricante':forms.Select(attrs={'class':'form-control'}),
-            'creacion':forms.Select(attrs={'class':'form-control'}),
+            'creacion':forms.DateTimeInput(attrs={'class':'form-control'}),
 
 
 	    	

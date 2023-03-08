@@ -69,14 +69,16 @@
         <section class="py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
-                    {% if producto.imagenes %}
                     <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ producto.image.url }}" alt="..." /></div>
-                    {% endif %}
                     <div class="col-md-6">
-                        <div class="small mb-1">{{producto.fabricante}} {{producto.category}}</div>
+                        <div class="small mb-1">{{producto.fabricante}} {{producto.category}} {{producto.creacion}}</div>
                         <h1 class="display-5 fw-bolder">{{producto.nombre}}</h1>
                         <div class="fs-5 mb-5">
-                            <span class="text-decoration-line-through">{{producto.precio}}</span>
+                            <span>{{producto.precio}}</span>
+                            <span>{{producto.encabezado}}</span>
+                        </div>
+                        <div class="fs-5 mb-5">
+                            <span>{{producto.encabezado}}</span>
                         </div>
                         <p class="lead">{{producto.contenido}}</p>
                         <div class="d-flex">
@@ -91,15 +93,10 @@
                 </div>
             </div>
             {% empty %}
-            <h2 class="col-12 display-4 text-center mt-5" style="font-size: 2em; height: 30vh;">No hay productos que
-            coincidan</h2>
+            <h2 class="col-12 display-4 text-center mt-5" style="font-size: 2em; height: 30vh;"></h2>
             {% endfor %}
         </section>
-<section>
-    <div>
-        {% include 'AppECP/paginator.html' %}
-    </div>
-</section>
+
 
 
 

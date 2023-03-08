@@ -1,45 +1,128 @@
-{% extends "AppECP/home.html" %}
-
-{% block content %}
-                {% csrf_token %}
-                
-                               <!-- Masthead-->
-                               <header class="masthead">
-                                <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
-                                    <div class="d-flex justify-content-center">
-                                        <form action="{% url 'busquedaProducto' %}" method="GET" class="form-inline my-2 my-lg-0">
-                                            <input class="form-control mr-sm-4" name="texto" type="text" placeholder="Buscar producto...">
-                                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscador</button>
-                                        </form>
-                                    </div>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load static %}
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Grayscale - Start Bootstrap Theme</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css'%}" rel="stylesheet" />
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="#page-top">GV-Paracord</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href={% url 'home' %}>Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href={% url 'aboutus' %}>About-Us</a></li>
+                        <li class="nav-item"><a class="nav-link" href={% url 'products' %}>Productos</a></li>
+                        
+                        {% if request.user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ user.username}}
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% if user.is_superuser %}
+                              <li><a class="dropdown-item" href="{% url 'List' %}">Listar Productos</a></li>
+                              {% endif %}
+                              <li><a class="dropdown-item" href="{% url 'New' %}">Agregar Productos</a></li>
+                              <li><a class="dropdown-item" href={% url 'logout' %}>Cerrar Sesion</a></li>
+                              <li><a class="dropdown-item" href={% url 'datos_usuarios' %}>Perfil</a></li>
+                            </ul>
+                          </li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href={% url 'login' %}>Ingresar</a></li>
+                        <li class="nav-item"><a class="nav-link" href={% url 'register' %}>Registrarse</a></li>
+                        {% endif %}
+                        <br>
+                        {% if user.is_superuser or not user.is_authenticated %}
+                        <button role="button" class="btn btn-success mr-3" disabled>
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                        {% else %}
+                        <button role="button" class="btn btn-success mr-3" href="{% url 'carrito_index' %}">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        {% block content %}
+        {% endblock %}
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+                <div class="d-flex justify-content-center">
+                    <form action="{% url 'busquedaProducto' %}" method="GET" class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-4" name="texto" type="text" placeholder="Buscar producto...">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscador</button>
+                    </form>
+                </div>
+            </div>
+        </header>
+        <!--aca comienzan los productos, el template completo esta en entrega final Ecomerce,1-76-->
+        <section class="py-5">{% csrf_token %}
+            <div class="container px-4 px-lg-5 mt-5">
+                {% for producto in producto %}
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            {% if producto.image %}
+                            <img class="card-img-top" src={{ producto.image.url }} alt="..." />
+                            {% endif %}
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">{{producto.nombre}}</h5>
+                                    <!-- Product price-->
+                                    (${{producto.precio}})
                                 </div>
-                            </header>
-                        <!--aca comienzan los productos, el template completo esta en entrega final Ecomerce,1-76--> 
-                        <section class="py-5">
-                          <div class="row">
-                              {% for producto in producto %}
-                              <div style="background-color: grey;" class="row gx-lg-4 gx-lg-5">
-                                  <div class="card" style="width: 20rem;">
-                                        {% if producto.image %}
-                                      <img src="{{ producto.image.url }}" class="card-img-top" alt="..." width="200" height="200" ></img>
-                                      {% endif %}
-                                      <div class="card-body">
-                                          <h5 class="card-title">{{producto.nombre}}</h5>
-                                          <p class="card-text">{{producto.encabezado}}</p>
-                                          <p class="card-text">(${{producto.precio}})</p>
-                                          <a href="{% url 'Detail' producto.id %}" class="btn btn-primary">Ver Detalle</a>
-                                      </div>
-                                    </div>
-                              </div>
-                          </div>
-                        </section>
-                        {% endfor %}
-                        <div>
-                            {% include 'AppECP/paginator.html' %}
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'Detail' producto.id %}">Ver Dettalle</a></div>
+                            </div>
                         </div>
-                        {% endblock %}
-                        </body>
-                    </html>     
+                   </div>
+                </div>        
+            </div>    
+        </section>
+        {% endfor %}
+        <div>
+        {% include 'AppECP/paginator.html' %}
+        </div>
+        
+                        <!-- Footer-->
+                        <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">Copyright &copy; Your Website 2022</div></footer>
+                        <!-- Bootstrap core JS-->
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+                        <!-- Core theme JS-->
+                        <script src="js/scripts.js"></script>
+                        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+                        <!-- * *                               SB Forms JS                               * *-->
+                        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+                        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+                        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+                    </body>
+                </html>     
          
   
      

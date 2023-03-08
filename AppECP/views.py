@@ -44,7 +44,7 @@ def aboutus(request):
     return render(request, 'AppECP/aboutus.html')
 
 #Contacto
-@login_required
+
 def contacto(request):
     data = {
         'contactform': ContactoFormulario()
@@ -171,6 +171,7 @@ def editar_usuario(request):
 
 
 #Perfil -Agregar foto y biografia
+
 def agregar_contenido_al_perfil(request):
     data={
         'perfilform': PerfilFormulario()
