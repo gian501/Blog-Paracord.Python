@@ -75,11 +75,11 @@
             <div class="col-md-6">
                 <div class="small mb-1">@{{ user.username | upper }} </div>
                 <h1 class="display-5 fw-bolder">{{ user.first_name }}  {{ user.last_name }}</h1>
-                <p class="lead">Descripcio: {{ user.profile.biografia }}</p>
+                <p class="lead">Descripción: {{ user.profile.biografia }}</p>
                 <div class="d-flex">
                 </div>
-                <a href="{% url 'modificarUsuario' %}"> Modificar datos Usuario</a>
-                <a href="{% url 'agregar_datos' %}"> Modificar Imagen Usuario</a>
+                <a href="{% url 'usuarioEditar' %}"> Modificar datos Usuario</a>
+                <a href="{% url 'perfilEditar' %}"> Modificar Imagen Usuario</a>
                 
             </div>
         </div>

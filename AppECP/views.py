@@ -20,7 +20,7 @@ from django.contrib import messages
 
 
 
-
+#home
 def home(request):
     return render(request, 'AppECP/home.html')
 
@@ -59,16 +59,6 @@ def contacto(request):
 
 
     return render(request, "AppECP/contacto.html", data)
-
-                   
-
-
-
-
-
-
-
-
 
 
 #####CRUD Producto#########  
@@ -145,8 +135,8 @@ def register(request):
 
     return render(request, 'registration/register.html', data)
 
-def datos_usuarios(request):
-   return render(request, 'AppECP/perfil_detalle.html')
+def perfil(request):
+   return render(request, 'AppECP/perfil.html')
 
 @login_required
 def editar_usuario(request):
@@ -163,7 +153,7 @@ def editar_usuario(request):
             usuario.save()
             
 
-            return render(request, "AppECP/home.html")
+            return render(request, "AppECP/perfil.html")
     else:
 
         miFormulario = UserEditForm(initial={'email':usuario.email})
@@ -172,18 +162,30 @@ def editar_usuario(request):
 
 #Perfil -Agregar foto y biografia
 
-def agregar_contenido_al_perfil(request):
+def editar_perfil(request):
     data={
         'perfilform': PerfilFormulario()
     }
     if request.method == 'POST':
-        formulario = PerfilFormulario(data = request.POST)
-        if formulario.is_valid():
-            formulario.save()
+        profileformulario = PerfilFormulario(data = request.POST)
+        if profileformulario.is_valid():
+            profileformulario.save()
             data["mensaje"] = "Perfil Actualizado"
         else:
-            data['Perfilform']= formulario
-    return render( request, "AppECP/perfil.html", data)
+            data['perfilform']= profileformulario
+    return render( request, "modificar_perfil.html", data)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
