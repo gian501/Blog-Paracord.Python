@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required    #, permission_required
 from django.contrib.auth import logout
 from .forms import CustomUserCreationForm
 from django.contrib.auth import authenticate, login
-from .models import Producto, Categorias, User ,Carrito, Carrito_item, Profile
+from .models import Producto, User ,Carrito, Carrito_item, Profile      # Categorias
 from .forms import ProductoFormulario, PerfilFormulario, UserEditForm, ContactoFormulario
 from django.urls import reverse_lazy
 #from django.http import HttpResponse
@@ -44,7 +44,6 @@ def aboutus(request):
     return render(request, 'AppECP/aboutus.html')
 
 #Contacto
-
 def contacto(request):
     data = {
         'contactform': ContactoFormulario()
@@ -59,6 +58,14 @@ def contacto(request):
 
 
     return render(request, "AppECP/contacto.html", data)
+
+#Busqueda de Productos
+def busquedaProducto(request):
+    texto_de_busqueda = request.GET["texto"]
+    productosPorNombre = Producto.objects.filter(nombre__icontains = texto_de_busqueda).all()
+    productos = productosPorNombre 
+    return render(request, 'AppECP/busquedaProducto.html',{'productos' : productos,'texto_buscado' : texto_de_busqueda,'titulo_seccion' : 'Productos que contienen','sin_productos' : 'No hay producto de la categoria ' + texto_de_busqueda})
+
 
 
 #####CRUD Producto#########  
@@ -105,14 +112,14 @@ class ProductoDeleteView(DeleteView):
     model = Producto
     success_url = reverse_lazy('products')
 
-def busquedaProducto(request):
-    texto_de_busqueda = request.GET["texto"]
-    productosPorNombre = Producto.objects.filter(nombre__icontains = texto_de_busqueda).all()
-    productos = productosPorNombre 
-    return render(request, 'AppECP/busquedaProducto.html',{'productos' : productos,'texto_buscado' : texto_de_busqueda,'titulo_seccion' : 'Productos que contienen','sin_productos' : 'No hay producto de la categoria ' + texto_de_busqueda})
-
-
 ####Fin CRUD####
+
+
+
+
+
+
+
 
 
 
@@ -149,7 +156,7 @@ def editar_usuario(request):
             usuario.password1= informacion['password1']
             usuario.password2= informacion['password1']
             usuario.first_name= informacion['first_name']
-            usuario.last_name= informacion['last_name']            
+            usuario.last_name= informacion['last_name']           
             usuario.save()
             
 
@@ -160,8 +167,11 @@ def editar_usuario(request):
     return render(request, "AppECP/usuario_editar.html",{"miFormulario": miFormulario, "usuario":usuario})
 
 
-#Perfil -Agregar foto y biografia
 
+# hasta aca funciona funciona
+#Perfil -Editar foto y biografia
+'''
+@login_required
 def editar_perfil(request):
     data={
         'perfilform': PerfilFormulario()
@@ -173,10 +183,31 @@ def editar_perfil(request):
             data["mensaje"] = "Perfil Actualizado"
         else:
             data['perfilform']= profileformulario
-    return render( request, "modificar_perfil.html", data)
 
+    return render(request, "AppECP/perfil_modificar.html", data)
+'''
 
+@login_required
+def editar_perfil(request):
+    user = request.user.id
+    profile = Profile.objects.get(user__id=user)
+   
 
+    if request.method == 'POST':
+        form=PerfilFormulario(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            profile.image = form.cleaned_data.get('image')
+            profile.biografia = form.cleaned_data.get('biografia')
+            profile.save()
+            return redirect('perfil')
+    else:
+        form=PerfilFormulario(instance=profile)
+
+    context={
+        'form':form,
+    }
+
+    return render(request, "AppECP/perfil_modificar.html", context)
 
 
 

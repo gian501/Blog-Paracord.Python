@@ -31,7 +31,7 @@ class ProductoFormulario(forms.ModelForm):
         }
 
 class UserEditForm(UserCreationForm):
-     
+
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'password1', 'password2']
