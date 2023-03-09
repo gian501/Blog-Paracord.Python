@@ -30,6 +30,7 @@
                         <li class="nav-item"><a class="nav-link" href={% url 'home' %}>Home</a></li>
                         <li class="nav-item"><a class="nav-link" href={% url 'aboutus' %}>About-Us</a></li>
                         <li class="nav-item"><a class="nav-link" href={% url 'products' %}>Productos</a></li>
+                        <li class="nav-item"><a class="nav-link" href={% url 'contacto' %}>Contacto</a></li>
                         
                         {% if request.user.is_authenticated %}
                         <li class="nav-item dropdown">
@@ -39,8 +40,9 @@
                             <ul class="dropdown-menu">
                                 {% if user.is_superuser %}
                               <li><a class="dropdown-item" href="{% url 'List' %}">Listar Productos</a></li>
+                              {% endif %}
                               <li><a class="dropdown-item" href="{% url 'New' %}">Agregar Productos</a></li>
-                                {% endif %}
+                              <li><a class="dropdown-item" href={% url 'perfil' %}>Perfil</a></li>
                               <li><a class="dropdown-item" href={% url 'logout' %}>Cerrar Sesion</a></li>
                             </ul>
                           </li>
@@ -71,7 +73,7 @@
                       <form action="" method="post">
                         <div class="card mx-auto" style="width: 30rem;">
                           <div class="card-body">
-                            <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                            <form enctype="multipart/form-data" action="" method="post" >{% csrf_token %}
                                 {{ form.as_p }}
                                 <a href="{% url 'List' %}">Regresar</a>
                                 <input type="submit" value="Enviar" />

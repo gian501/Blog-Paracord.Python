@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required    #, permission_required
+from django.contrib.auth.decorators import login_required   
 from django.contrib.auth import logout
 from .forms import CustomUserCreationForm
 from django.contrib.auth import authenticate, login
-from .models import Producto, User ,Carrito, Carrito_item, Profile      # Categorias
-from .forms import ProductoFormulario, PerfilFormulario, UserEditForm, ContactoFormulario
+from .models import Producto, User ,Carrito, Carrito_item, Profile         
+from .forms import ProductoFormulario, UserEditForm, ContactoFormulario, PerfilFormulario
 from django.urls import reverse_lazy
-#from django.http import HttpResponse
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -115,14 +114,6 @@ class ProductoDeleteView(DeleteView):
 ####Fin CRUD####
 
 
-
-
-
-
-
-
-
-
 #Registro de usuario
 def register(request):
     data = {
@@ -166,28 +157,7 @@ def editar_usuario(request):
         miFormulario = UserEditForm(initial={'email':usuario.email})
     return render(request, "AppECP/usuario_editar.html",{"miFormulario": miFormulario, "usuario":usuario})
 
-
-
-# hasta aca funciona funciona
 #Perfil -Editar foto y biografia
-'''
-@login_required
-def editar_perfil(request):
-    data={
-        'perfilform': PerfilFormulario()
-    }
-    if request.method == 'POST':
-        profileformulario = PerfilFormulario(data = request.POST)
-        if profileformulario.is_valid():
-            profileformulario.save()
-            data["mensaje"] = "Perfil Actualizado"
-        else:
-            data['perfilform']= profileformulario
-
-    return render(request, "AppECP/perfil_modificar.html", data)
-'''
-
-@login_required
 def editar_perfil(request):
     user = request.user.id
     profile = Profile.objects.get(user__id=user)
@@ -210,6 +180,11 @@ def editar_perfil(request):
     return render(request, "AppECP/perfil_modificar.html", context)
 
 
+
+
+
+
+# hasta aca funciona funciona
 
 
 

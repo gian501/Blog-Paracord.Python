@@ -12,6 +12,7 @@ urlpatterns = [
     path('usuarioEditar/', editar_usuario, name="usuarioEditar"),
     path('contacto/', contacto, name='contacto'),
     path('perfilEditar/', editar_perfil, name='perfilEditar'),
+   
 
     path('producto/list', views.ProductoListView.as_view(), name='List'),
     path(r'^(?P<pk>\d+)$', views.ProductoDetailView.as_view(), name='Detail'),

@@ -40,10 +40,25 @@ class Producto(models.Model):
 	def __str__(self):
 		return self.nombre
 	
-class ImageProducto(models.Model):
-	image = models.ImageField(upload_to="producto/")
-	producto = models.ForeignKey(Producto, on_delete= models.CASCADE, related_name="imagenes")
 
+
+#Contacto
+opciones_consulta = [
+	[0, "Consulta"],
+	[1, "Reclamo"],
+	[2, "sugerencia"]
+]
+
+class Contacto (models.Model):
+	nombre = models.CharField(max_length=40)
+	correo = models.EmailField()
+	tipo_consulta = models.IntegerField(choices=opciones_consulta)
+	mensaje = models.TextField()
+	notificacion = models.BooleanField()
+
+
+	def __str__(self):
+		return self. nombre
 
 #Profile
 class Profile(models.Model):
@@ -70,6 +85,8 @@ post_save.connect(save_user_profile, sender=User)
 
 
 
+
+
 #Carrito
 class Carrito(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="carrito")
@@ -82,20 +99,4 @@ class Carrito_item(models.Model):
 
 
 
-#Contacto
-opciones_consulta = [
-	[0, "Consulta"],
-	[1, "Reclamo"],
-	[2, "sugerencia"]
-]
 
-class Contacto (models.Model):
-	nombre = models.CharField(max_length=40)
-	correo = models.EmailField()
-	tipo_consulta = models.IntegerField(choices=opciones_consulta)
-	mensaje = models.TextField()
-	notificacion = models.BooleanField()
-
-
-	def __str__(self):
-		return self. nombre

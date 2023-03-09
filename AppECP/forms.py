@@ -1,5 +1,5 @@
 from django import forms
-from .models import Producto,Profile, Contacto
+from .models import Producto, Contacto, Profile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -44,13 +44,13 @@ class ContactoFormulario (forms.ModelForm):
           model = Contacto
           fields = ["nombre", "correo", "tipo_consulta", "mensaje", "notificacion"]
 
+
 class PerfilFormulario (forms.ModelForm):
       
 
       class Meta:
         model = Profile
         fields = ['image', 'biografia']
-
 
 
 

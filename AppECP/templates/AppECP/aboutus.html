@@ -30,6 +30,7 @@
                         <li class="nav-item"><a class="nav-link" href={% url 'home' %}>Home</a></li>
                         <li class="nav-item"><a class="nav-link" href={% url 'aboutus' %}>About-Us</a></li>
                         <li class="nav-item"><a class="nav-link" href={% url 'products' %}>Productos</a></li>
+                        <li class="nav-item"><a class="nav-link" href={% url 'contacto' %}>Contacto</a></li>
                         
                         {% if request.user.is_authenticated %}
                         <li class="nav-item dropdown">
@@ -39,8 +40,9 @@
                             <ul class="dropdown-menu">
                                 {% if user.is_superuser %}
                               <li><a class="dropdown-item" href="{% url 'List' %}">Listar Productos</a></li>
+                              {% endif %}
                               <li><a class="dropdown-item" href="{% url 'New' %}">Agregar Productos</a></li>
-                                {% endif %}
+                              <li><a class="dropdown-item" href={% url 'perfil' %}>Perfil</a></li>
                               <li><a class="dropdown-item" href={% url 'logout' %}>Cerrar Sesion</a></li>
                             </ul>
                           </li>
@@ -69,9 +71,8 @@
             <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
-                        <h5 class="text-white-50 mx-auto mt-2 mb-5">Desde sus inicios a fines de 2018, a medida que la aplicación de la "Cuerda de Paracaidas", conocida como "Paracord" ganó un ascenso meteórico, GV-Paracord a intentado atraer la atencion del publico con sus creaciones y explicaciones  sobre el mundo del Paracord. </h3> 
-                        <h5 class="text-white-50 mx-auto mt-2 mb-5">Lo que intentamos con esta pagina es crear conciencia de la utilidad y practicidad de este material.</h3>
-                        <h5 class="text-white-50 mx-auto mt-2 mb-5"> Posterior al COVID-19 necesitabamos cada vez mas los espacios abiertos y la aventura. Lo que nos llevo a exponernos a ambientes mas crudos, Por lo que este material prima en su utilidad y durabilidad.</h3>    
+                        <h1 class="mx-auto my-0 text-uppercase"> GV-Paracord</h1> 
+                        <h4 class="text-white-50 mx-auto mt-2 mb-5">Somos GV-Paracord: una empresa y comunidad, con la misión de inspirarte para crear productos grandiosos o adquirirlos. ¡Adéntrate en el mundo de Paracord por el placer de crear!</h4> 
                     </div>
                 </div>
             </div>
@@ -80,9 +81,11 @@
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-8">
-                        <h2 class="text-white mb-4">GV-Paracord</h2>
+                        <h2 class="text-white mb-4">Nosotros</h2>
                         <p class="text-white-50">
-                            Somos GV-Paracord: una empresa y comunidad, con la misión de inspirarte para crear productos grandiosos o adquirirlos. ¡Adéntrate en el mundo de Paracord por el placer de crear!
+                            <h5 class="text-white-50 mx-auto mt-2 mb-5">Desde sus inicios a fines de 2018, a medida que la aplicación de la "Cuerda de Paracaidas",tambien conocida como "Paracord", ganó un ascenso meteórico. GV-Paracord a intentado atraer la atencion del público con sus creaciones y explicaciones sobre este mundo. </h5> 
+                            <h5 class="text-white-50 mx-auto mt-2 mb-5">Lo que intentamos con esta página es crear conciencia de la utilidad y practicidad de este material.</h5>
+                            <h5 class="text-white-50 mx-auto mt-2 mb-5"> Posterior al COVID-19 necesitabamos cada vez mas los espacios abiertos y la aventura. Lo que nos llevo a exponernos a ambientes mas crudos, haciendo que este material prime en su utilidad y durabilidad.</h5>
                         </p>
                     </div>
                 </div>
@@ -94,9 +97,23 @@
                     <div class="col-lg-8">
                         <h2 class="text-white mb-4">¿Paracord que es?</h2>
                         <p class="text-white-50">
-                            La cuerda de paracaídas (también paracord o cuerda 550 cuando se refiere a la cuerda de paracaídas tipo III) es una cuerda kernmantle de nailon liviana que se usó originalmente en las líneas de suspensión de los paracaídas. Este cable ahora se usa como un cable de utilidad de uso general. Este cable versátil fue utilizado por los astronautas durante la misión 82 del transbordador espacial para reparar el telescopio espacial Hubble.
-                                La vaina trenzada generalmente se compone de 32 hebras entrelazadas, que le dan una textura relativamente suave. La construcción totalmente de nailon hace que el paracord sea algo elástico .
-                                Las normas técnicas actuales para la fabricación de cuerdas para uso en paracaídas son publicadas por la Asociación de la Industria del Paracaídas . El estándar militar estadounidense ahora desactivado MIL-C-5040H requería que el material fuera nailon. Los estilos similares de cordón se fabrican con otros materiales como el poliéster. 
+                            La cuerda de paracaídas (también paracord o cuerda 550 cuando se refiere a la cuerda de paracaídas tipo III) es una cuerda kernmantle de nailon liviana que se usó originalmente en las líneas de suspensión de los paracaídas. Esta cuerda ahora cuenta con un uso general, funcional y estetico. 
+                            Este cable versátil fue utilizado por los astronautas durante la misión 82 del transbordador espacial para reparar el telescopio Hubble.
+                            La vaina trenzada generalmente se compone de 32 hebras entrelazadas, que le dan una textura relativamente suave. La construcción totalmente de nailon hace que el paracord sea algo elástico .
+                            Las normas técnicas actuales para la fabricación de cuerdas para uso en paracaídas son publicadas por la Asociación de la Industria del Paracaídas.  El estándar militar estadounidense, ahora desactivado MIL-C-5040H, requería que el material fuera nailon. 
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="about-section text-center" id="about">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-8">
+                        <h2 class="text-white mb-4">Tipos de Paracord</h2>
+                        <p class="text-white-50">
+                            Hay varios tipos de "Paracord" que difieren entre ellos, según el peso máximo que pueden soportar.
+                            El más utilizado es el Paracord III comúnmente conocido como Paracord 550, ya que aguanta 550 libras de peso, lo que equivale a 249 kg.
                         </p>
                     </div>
                 </div>
@@ -108,24 +125,8 @@
                     <div class="col-lg-8">
                         <h2 class="text-white mb-4">¿Cómo lo llevamos?</h2>
                         <p class="text-white-50">
-                            Hay varios tipos de que difieren entre ellos en el peso máximo que pueden soportar:
-                            El más utilizado es el Paracord III comúnmente conocido como Paracord 550, ya que aguanta 550 libras de peso, o lo que es lo mismo, 249 kg.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="about-section text-center" id="about">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-lg-8">
-                        <h2 class="text-white mb-4">¿Cómo lo llevamos?</h2>
-                        <p class="text-white-50">
-                            La forma mas popular de llevar el paracord es en una pulsera. En dependencia del tipo de tejido que se use lo usual es que en una pulsera se puedan llevar entre 2 y 3 metros de paracord 550. Aquí otro aspecto para tener en cuenta es qué tiempo necesito para disponer de él. Esto me ayudará a saber qué tipo de tejido usaré para hacer mi pulsera o comprarla en su defecto. Hay nudos que son muy difíciles de quitar y puede ser muy laborioso destejer la pulsera para poder usar la cuerda. 
-                            En mi caso particular, siento que dos metros de paracord es poco y solo útil en cosas menores como reparar el cordón de un zapato, un cinturón roto o atar algo pequeño. Es por esto por lo que en general yo solo uso las pulseras de manera decorativa. No obstante, trato de mantener el principio de que sea fácil de hacer y fácil de deshacer para no quitarle por completo el valor utilitario. 
-                            Pero ¿por qué uso el principio de fácil de hacer y fácil de deshacer? Primero porque mi habilidad como tejedor es limitada además no quiero pasar dos horas haciendo una pulsera que voy a deshacer si la necesito. Y segundo, la cantidad de paracord que nos da una pulsera es bastante poco para ser usado en zonas agrestes por lo que las llevo en entornos urbanos. Si necesito mucho tiempo ya deja de ser útil. Por ejemplo, imaginemos que necesito cambiar el cordón de amarrar mi zapato. Si necesito media hora para deshacer la pulsera y empezar la reparación ya no tendría sentido hacerlo porque en ese tiempo puedo llegar a una tienda y comprar algo que será mejor y mas barato.
-                            Otro punto que vale la pena analizar en este tipo de forma de llevar el paracord es el uso extendido como accesorio, por ejemplo, para la pulsera del reloj. Si bien se ve muy bonito, tenemos un paracord que difícilmente podemos usar. Quitar la pulsera de un reloj lleva a mas problemas que soluciones, así que esto nos lleva a pensar en que si realmente vamos a usar el paracord, no nos lleve a una situación de “desvestir a un santo para verstir otro”. 
-                            Ahora, si lo que queremos es usarlo de manera decorativa hay canales que tienen proyectos increíbles en youtube. 
+                            La forma más popular de llevar el Paracord es en una pulsera. Según el tipo de tejido, lo usual es que en una pulsera contenga entre 2 y 3 metros de Paracord 550. Otro aspecto para tener en cuenta, es el tiempo que necesito disponer según la premura de la situación. Lo que nos ayudará a saber qué tipo de nudo usaremos para hacer una pulsera o comprarla en su defecto. 
+                            Hay nudos que son difíciles de destejer para poder utilizar la cuerda. Por lo que debe mantenerse el principio de que sea fácil de hacer y deshacer para no quitarle por completo el valor utilitario, dejando el producto en su funcionalidad meramente estética.
                         </p>
                     </div>
                 </div>
@@ -137,10 +138,8 @@
                     <div class="col-lg-8">
                         <h2 class="text-white mb-4">Un poco mas sobre su creador...</h2>
                         <p class="text-white-50">
-                            Mi nombre es Gianfranco Valente Cano. Soy un Abogado recibido de Universidad Catolica Argentina con 4 años de experiencia en el sector. Desde chico fui un apacionado por la progración que siempre esta buscando nuevos desafios.
-                            Me mude a mi ciudad natal con el objetivo de disfrutar mas de la familia. La idea de este blog - E-comerce surgio naturalmente, ya que en mi tiempo libre me dedico a fabricar pulseras y otros accesorios con Paracord 550.
-                            
-
+                            Mi nombre es Gianfranco Valente Cano. Soy un Abogado recibido de Universidad Catolica Argentina con 4 años de experiencia en el sector. Desde chico fui un apasionado por la progración que siempre esta buscando nuevos desafios.
+                            La idea de este E-comerce y blog surgio naturalmente, ya que en mi tiempo libre me dedico a fabricar pulseras y otros accesorios con Paracord 550.
                         </p>
                     </div>
                 </div>
