@@ -12,9 +12,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import Http404
-from django.contrib import messages
-from django.http import JsonResponse
-import json
+
 
 
 # Create your views here.
