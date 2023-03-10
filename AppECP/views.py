@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from .forms import CustomUserCreationForm
 from django.contrib.auth import authenticate, login
-from .models import Producto, User ,Carrito, Carrito_item, Profile         
+from .models import Producto, User , Profile         
 from .forms import ProductoFormulario, UserEditForm, ContactoFormulario, PerfilFormulario
 from django.urls import reverse_lazy
 from django.views.generic import ListView
@@ -13,6 +13,8 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.contrib import messages
+from django.http import JsonResponse
+import json
 
 
 # Create your views here.
@@ -184,7 +186,6 @@ def editar_perfil(request):
 
 
 
-# hasta aca funciona funciona
 
 
 
@@ -198,67 +199,4 @@ def editar_perfil(request):
 
 
 
-#Carrito
-def carrito_index(request):
-    
-    usuario_logeado = User.objects.get(username=request.user)
-    productos = Carrito.objects.get(usuario=usuario_logeado.id).items.all()
-
-    carrito = Carrito.objects.get(usuario=usuario_logeado.id)
-    nuevo_precio_Carrito = 0
-    for item in carrito.items.all():
-        nuevo_precio_Carrito += item.producto.precio
-    carrito.total = nuevo_precio_Carrito
-    carrito.save()
-
-    return render(request, '"AppECP/carrito_compras.html"', {
-        
-        'usuario' : usuario_logeado,
-        'items_carrito' : productos
-    })
-
-
-def carrito_save(request):
-    if request.method == 'POST':
-        producto = Producto.objects.get(id=request.POST['producto_id'])
-        usuario_logeado = User.objects.get(username=request.user)
-
-        # Agrego producto al carrito
-        carrito = Carrito.objects.get(usuario=usuario_logeado.id)
-        item_carrito = Carrito_item()
-        item_carrito.carrito = carrito
-        item_carrito.producto = producto
-        item_carrito.save()
-
-        # Sumo el precio del producto al carrito
-        carrito.total = producto.precio + carrito.total
-        carrito.save()
-        messages.success(request, f"El producto {producto.titulo} fue agregado al carrito")
-        return redirect("AppECP/carrito_compras.html")
-
-    else:
-        return redirect("AppECP/carrito_compras.html")
-
-def carrito_clean(request):
-    usuario_logeado = User.objects.get(username=request.user)
-    carrito = Carrito.objects.get(usuario=usuario_logeado.id)
-    carrito.items.all().delete()
-    carrito.total = 0
-    carrito.save()
-    return redirect("AppECP/carrito_compras.html")
-
-def item_carrito_delete(request, item_carrito_id):
-    item_carrito = Carrito_item.objects.get(id=item_carrito_id)
-    carrito = item_carrito.carrito
-    
-    # Vuelvo a calcular el precio del carrito
-    nuevo_precio_Carrito = 0 - item_carrito.producto.precio
-    for item in carrito.items.all():
-        nuevo_precio_Carrito += item.producto.precio
-
-    # Realizo los cambios en la base de datos
-    carrito.total = nuevo_precio_Carrito
-    item_carrito.delete()
-    carrito.save()
-    return redirect("AppECP/carrito_compras.html")
     

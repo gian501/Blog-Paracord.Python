@@ -50,16 +50,6 @@
                         <li class="nav-item"><a class="nav-link" href={% url 'login' %}>Ingresar</a></li>
                         <li class="nav-item"><a class="nav-link" href={% url 'register' %}>Registrarse</a></li>
                         {% endif %}
-                        <br>
-                        {% if user.is_superuser or not user.is_authenticated %}
-                        <button role="button" class="btn btn-success mr-3" disabled>
-                            <i class="fas fa-shopping-cart"></i>
-                        </button>
-                        {% else %}
-                        <button role="button" class="btn btn-success mr-3" href="{% url 'carrito_index' %}">
-                            <i class="fas fa-shopping-cart"></i>
-                        </button>
-                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -72,7 +62,7 @@
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
                         <h1 class="mx-auto my-0 text-uppercase"> GV-Paracord</h1> 
-                        <h4 class="text-white-50 mx-auto mt-2 mb-5">Somos GV-Paracord: una empresa y comunidad, con la misión de inspirarte para crear productos grandiosos o adquirirlos. ¡Adéntrate en el mundo de Paracord por el placer de crear!</h4> 
+                        <h4 class="text-white-50 mx-auto mt-2 mb-5">Somos GV-Paracord: una empresa y comunidad, con la misión de inspirarte para crear productos grandiosos. ¡Adéntrate en el mundo de Paracord por el placer de crear!</h4> 
                     </div>
                 </div>
             </div>
@@ -139,7 +129,7 @@
                         <h2 class="text-white mb-4">Un poco mas sobre su creador...</h2>
                         <p class="text-white-50">
                             Mi nombre es Gianfranco Valente Cano. Soy un Abogado recibido de Universidad Catolica Argentina con 4 años de experiencia en el sector. Desde chico fui un apasionado por la progración que siempre esta buscando nuevos desafios.
-                            La idea de este E-comerce y blog surgio naturalmente, ya que en mi tiempo libre me dedico a fabricar pulseras y otros accesorios con Paracord 550.
+                            La idea de este blog y catalogo surgio naturalmente, ya que en mi tiempo libre me dedico a fabricar pulseras y otros accesorios con Paracord 550.
                         </p>
                     </div>
                 </div>

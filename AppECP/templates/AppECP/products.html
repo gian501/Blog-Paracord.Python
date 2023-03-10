@@ -50,16 +50,6 @@
                         <li class="nav-item"><a class="nav-link" href={% url 'login' %}>Ingresar</a></li>
                         <li class="nav-item"><a class="nav-link" href={% url 'register' %}>Registrarse</a></li>
                         {% endif %}
-                        <br>
-                        {% if user.is_superuser or not user.is_authenticated %}
-                        <button role="button" class="btn btn-success mr-3" disabled>
-                            <i class="fas fa-shopping-cart"></i>
-                        </button>
-                        {% else %}
-                        <button role="button" class="btn btn-success mr-3" href="{% url 'carrito_index' %}">
-                            <i class="fas fa-shopping-cart"></i>
-                        </button>
-                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -77,17 +67,15 @@
                 </div>
             </div>
         </header>
-        <!--aca comienzan los productos, el template completo esta en entrega final Ecomerce,1-76-->
-        <section  class="py-5">{% csrf_token %}
+        <!--aca comienzan los productos-->
+        <section  class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
                 {% for producto in producto %}
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    <div class="col mb-5">
-                        <div class="card h-100">
+                <div class="  row-cols-xl-2 justify-content-center">
+                    <div>
+                        <div class="card h-50">{% csrf_token %}
                             <!-- Product image-->
-                            {% if producto.image %}
-                            <img class="card-img-top" src={{ producto.image.url }} alt="..." />
-                            {% endif %}
+                            <img en class="card-img-top" src="{{ producto.image.url }}" alt="..." />
                             <!-- Product details-->
                             <div class="card-body p-4">
                                 <div class="text-center">
@@ -98,7 +86,7 @@
                                 </div>
                             </div>
                             <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div  class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'Detail' producto.id %}">Ver Dettalle</a></div>
                             </div>
                         </div>

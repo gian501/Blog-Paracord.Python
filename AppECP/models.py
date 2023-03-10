@@ -58,7 +58,7 @@ class Contacto (models.Model):
 
 
 	def __str__(self):
-		return self. nombre
+		return self.nombre
 
 #Profile
 class Profile(models.Model):
@@ -71,6 +71,11 @@ class Profile(models.Model):
 		verbose_name = 'Perfil'
 		verbose_name_plural = 'Perfiles'
 		ordering = ['-id']
+
+	def __str__(self):
+		return self.user.username
+
+	
 
 def create_user_profile(sender, instance, created, **kwargs):
 	if created:
@@ -87,13 +92,9 @@ post_save.connect(save_user_profile, sender=User)
 
 
 
-#Carrito
-class Carrito(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="carrito")
-    total = models.DecimalField(null=False, max_digits=10, decimal_places=2)
-class Carrito_item(models.Model):
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE) 
-    carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE, related_name="items")
+
+	
+	
 
 
 

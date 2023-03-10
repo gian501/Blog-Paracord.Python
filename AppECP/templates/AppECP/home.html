@@ -50,16 +50,6 @@
                         <li class="nav-item"><a class="nav-link" href={% url 'login' %}>Ingresar</a></li>
                         <li class="nav-item"><a class="nav-link" href={% url 'register' %}>Registrarse</a></li>
                         {% endif %}
-                        <br>
-                        {% if user.is_superuser or not user.is_authenticated %}
-                        <button role="button" class="btn btn-success mr-3" disabled>
-                            <i class="fas fa-shopping-cart"></i>
-                        </button>
-                        {% else %}
-                        <button role="button" class="btn btn-success mr-3" href="{% url 'carrito_index' %}">
-                            <i class="fas fa-shopping-cart"></i>
-                        </button>
-                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -73,7 +63,7 @@
                     <div class="text-center">
                         <h1 class="mx-auto my-0 text-uppercase">   GV-Paracord</h1> 
                         <h2 class="text-white-50 mx-auto mt-2 mb-5">Somos una empresa, que intenta inspirar y dar a conocer los usos del "Paracord", con fines decorativos o funcionales. 
-                        Para ello, desarrollamos un E-Comerce y catalogo de Paracord en todas sus categorias. En pos de la inspiración ya sea para su creación o adquisición. </h2>
+                        Para ello, desarrollamos un Blog y catalogo de Paracord en todas sus categorias. En pos de la inspiración ya sea para su creación o aprendizaje. </h2>
                     </div>
                 </div>
             </div>
