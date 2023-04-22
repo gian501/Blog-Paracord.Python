@@ -3,6 +3,10 @@
 
 Procedimos a la creación de un proyecto, blog con la posibilidad de extension a E-Comerce. Comenzamos con la creación del proyecto y la instalación de la aplicación.
 
+El video sera subido a google drive ya que tiene mas de nueve minutos.
+
+https://drive.google.com/file/d/17saZcvfo_uDlcCap9R7-y-Q9v-QyzMDb/view?usp=sharing
+
 
 Modelos:
 
@@ -109,6 +113,4 @@ D. Cerrar sesión: que nos redigira como lo definimos en el settings. Del progra
 
 
 
-El video sera subido a google drive ya que tiene mas de nueve minutos.
 
-https://drive.google.com/file/d/17saZcvfo_uDlcCap9R7-y-Q9v-QyzMDb/view?usp=sharing
