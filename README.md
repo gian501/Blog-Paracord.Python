@@ -21,7 +21,7 @@ Modelos:
 
 
 Formularios:
-Mediante el uso de Dyango como Framework utilizamos herramientas para crear formularios :
+Mediante el uso de Django como Framework utilizamos herramientas para crear formularios :
 
 A. CustomUserCreationForm  importamos el modelo USER  de Django para realizar un formulario de registro que tiene las categorías de: 
 1. Username 
@@ -98,10 +98,10 @@ La pagina de producto en su inicio tiene una barra de búsqueda que si encuentra
 7.Una vez ingresados si estamos registrados nos aparecerá el nombre del usuario por ejemplo “Gian_5555” presionándolo nos dará opciones:
 
 1. Si es Superusuario:
-A. Listar productos: que nos permite ver todos los productos creados, sus nombres y la posibilidad de .Ver(muestra el detalle del producto) .Modificar(nos lleva al formulario de modificación que es el mismo que el de creación) .Borrar(nos permite borrrar productos y nos envía a una pagina de confirmación)
-
-Usuario : Gian_5555
-Contraseña : 
+A. Listar productos: que nos permite ver todos los productos creados, sus nombres y la posibilidad de 
+.Ver(muestra el detalle del producto) 
+.Modificar(nos lleva al formulario de modificación que es el mismo que el de creación) 
+.Borrar(nos permite borrrar productos y nos envía a una pagina de confirmación)
 
 Y tiene todas las otras opciones de usuarios comunes
 
