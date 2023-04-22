@@ -1,4 +1,4 @@
-# E-ComerceParacord.GianfrancoValenteCano
+# E-ComerceParacord
 
 
 Procedimos a la creación de un proyecto, blog con la posibilidad de extension a E-Comerce. Comenzamos con la creación del proyecto y la instalación de la aplicación.
@@ -109,7 +109,6 @@ D. Cerrar sesión: que nos redigira como lo definimos en el settings. Del progra
 
 
 
-el video sera subido a google drive ya que tiene mas de nueve minutos. Lamentablemente en el video no llegue a mostrar en products como se habia eliminado el producto King Cobra. aunque realmente fue asi lo volvi a crear porque es muy importante en la base de los productos.
-Si ustedes desean pueden hacer la preba de borrar los productos desde el listado de productos con un superuser.
+El video sera subido a google drive ya que tiene mas de nueve minutos.
 
 https://drive.google.com/file/d/17saZcvfo_uDlcCap9R7-y-Q9v-QyzMDb/view?usp=sharing
